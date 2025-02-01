@@ -35,8 +35,14 @@ body {
   min-height: 100vh;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 li {
   list-style: none;
+  font-size: 1.2em;
 }
 
 h1 {
@@ -51,6 +57,14 @@ h2, h3, h1 {
 #app {
   height: 100%;
   margin: 0 auto;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
 }
 
 .logo {
@@ -128,10 +142,18 @@ button:focus-visible {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: absolute;
   width: 15%;
   height: 100%;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+span.material-symbols-outlined {
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
