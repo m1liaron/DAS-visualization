@@ -22,10 +22,15 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
+header {
   display: flex;
-  place-items: center;
+  align-items: center;
+  background-color: #303030;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -35,19 +40,21 @@ li {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 1.2em;
   line-height: 1.1;
 }
 
+h2, h3, h1 {
+  margin: 0
+}
+
 #app {
-  max-width: 1280px;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
 }
 
 .logo {
-  height: 6em;
+  height: 4em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
@@ -97,4 +104,18 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+
+/*Navigation Bar*/
+
+#sidebar {
+  background-color: #363636;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  width: 15%;
+  height: 100%;
 }

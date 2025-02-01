@@ -5,7 +5,6 @@ import {navigationRender} from "./components/navigationRender.js";
 import {algorithms, dataStructures} from "./data/data.js";
 
 document.querySelector('#app').innerHTML = `
-  <div>
       <header>
         <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
           <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
@@ -21,8 +20,9 @@ document.querySelector('#app').innerHTML = `
       <main id="content">
           <!-- Visualization will be rendered here -->
       </main>
-  </div>
 `
+
+navigationRender(algorithms, dataStructures)
 
 document.getElementById('sidebar').addEventListener('click', (e) => {
   if (e.target && e.target.matches('li[data-view]')) {
@@ -30,6 +30,3 @@ document.getElementById('sidebar').addEventListener('click', (e) => {
     loadVisualization(viewName, 'algorithms');
   }
 });
-
-// loadVisualization('bubbleSort', 'algorithms');
-navigationRender(algorithms, dataStructures)
