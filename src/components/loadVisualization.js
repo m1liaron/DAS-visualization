@@ -1,6 +1,21 @@
 import { algorithms, dataStructures } from "../data/data.js";
 import {LinkedList} from "../dataStructures/linkedList.js";
 
+const dataStructureInstances = {};
+
+function createInstance(type, viewName) {
+    if(!dataStructureInstances[viewName]) {
+        switch (viewName) {
+            case "linkedList":
+                dataStructureInstances[viewName] = new LinkedList();
+                break
+            default:
+                dataStructureInstances[viewName] = null;
+        }
+    }
+    return dataStructureInstances[viewName]
+}
+
 function findItemByName (viewName, data) {
     for(let item of data) {
         if(item.name === viewName && item.module) {
@@ -40,9 +55,11 @@ export async function loadVisualization(viewName, type) {
 
     try {
         const module = await import(/* @vite-ignore */selected.module);
+        const dataInstance = createInstance(type, viewName);
+
         title.textContent = `Visualize: ${selected.name}`;
         selectedDasContainer.appendChild(title)
-        content.innerHTML = module.render ? module.render(linkedList) : module.default.render(linkedList);
+        content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
 
         const inputContainer = document.createElement("div");
         inputContainer.classList.add('input-container')
@@ -61,15 +78,16 @@ export async function loadVisualization(viewName, type) {
 
         addButton.addEventListener('click', () => {
             if(value.length) {
-                linkedList.append(value);
-                content.innerHTML = module.render ? module.render(linkedList) : module.default.render(linkedList);
+                if(dataInstance && typeof dataInstance.append === "function") {
+                    dataInstance.append(value);
+                    content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+                }
                 value = '';
                 input.value = ''
             } else {
                 alert("Fill up input")
             }
         });
-        console.log(linkedList)
 
         inputContainer.appendChild(input);
         inputContainer.appendChild(addButton);
