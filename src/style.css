@@ -140,8 +140,6 @@ button:focus-visible {
 #sidebar {
   background-color: #363636;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
   position: absolute;
   min-width: 15%;
   height: 100%;
