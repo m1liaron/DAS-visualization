@@ -1,6 +1,8 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import {loadVisualization} from "./components/loadVisualization.js";
+import {navigationRender} from "./components/navigationRender.js";
+import {algorithms, dataStructures} from "./data/data.js";
 
 document.querySelector('#app').innerHTML = `
   <div>
@@ -14,28 +16,7 @@ document.querySelector('#app').innerHTML = `
         </a>
       </header>
       <nav id="sidebar">
-            <h2>Visualization</h2>
-            <section>
-               <h3>Data Structures</h3>
-              <ul>
-                <li data-view="bubbleSort">Bubble Sort</li>
-                <li data-view="quickSort">Quick Sort</li>
-                <li data-view="stack">Stack</li>
-                <li data-view="queue">Queue</li>
-                <!-- Add more items as needed -->
-              </ul>
-            </section>
-            <section>
-             <h3>Algorithms</h3>
-              <ul>
-                <li data-view="bubbleSort">Bubble Sort</li>
-                <li data-view="quickSort">Quick Sort</li>
-                <li data-view="stack">Stack</li>
-                <li data-view="queue">Queue</li>
-                <!-- Add more items as needed -->
-              </ul>
-            </section>
-
+          <h2>Visualization</h2>
       </nav>
       <main id="content">
           <!-- Visualization will be rendered here -->
@@ -50,4 +31,5 @@ document.getElementById('sidebar').addEventListener('click', (e) => {
   }
 });
 
-loadVisualization('bubbleSort', 'algorithms');
+// loadVisualization('bubbleSort', 'algorithms');
+navigationRender(algorithms, dataStructures)

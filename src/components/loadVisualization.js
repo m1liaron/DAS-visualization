@@ -1,4 +1,4 @@
-import { algorithms } from "../data/algorithms.js";
+import { algorithms } from "../data/data.js";
 
 export async function loadVisualization(viewName, type ) {
     const content = document.getElementById('content');
