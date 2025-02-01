@@ -1,49 +1,82 @@
 export function navigationRender(algorithms, dataStructures) {
     const nav = document.getElementById("sidebar");
-    nav.innerHTML = "<h2>Visualization</h2>";
+    nav.innerHTML = "";
 
-    function createSection(titleText, items) {
-        const section = document.createElement("section");
+    const dsSection = document.createElement("section");
+    dsSection.classList.add("nav-section");
+    const dsTitle = document.createElement("h3");
+    dsTitle.textContent = "Data Structures";
+    dsSection.appendChild(dsTitle);
 
-        const titleContainer = document.createElement("div");
-        titleContainer.classList.add("flex");
-        const title = document.createElement("h3");
-        title.textContent = titleText;
+    // Create a nested list for data structures
+    const dsList = createList(dataStructures, "children", "dataStructures");
+    dsSection.appendChild(dsList);
 
-        const arrowItem = document.createElement("span");
-        arrowItem.className = 'material-symbols-outlined';
-        arrowItem.textContent = "keyboard_arrow_down";
-        arrowItem.setAttribute("data-view", titleText);
+    // --- Algorithms Section ---
+    const algSection = document.createElement("section");
+    algSection.classList.add("nav-section");
+    const algTitle = document.createElement("h3");
+    algTitle.textContent = "Algorithms";
+    algSection.appendChild(algTitle);
 
-        titleContainer.appendChild(title);
-        titleContainer.appendChild(arrowItem);
+    // Create a nested list for algorithms
+    const algList = createList(algorithms, "children", "algorithms");
+    algSection.appendChild(algList);
 
-        section.appendChild(titleContainer);
 
-        const listEl = document.createElement("ul");
-        items.forEach(itemData => {
-            const listContainer = document.createElement("div");
-            listContainer.classList.add("flex");
-            const listItem = document.createElement("li");
-            listItem.setAttribute("data-view", itemData.name);
-            listItem.textContent = itemData.name;
-
-            const arrowItem = document.createElement("span");
-            arrowItem.className = 'material-symbols-outlined';
-            arrowItem.textContent = "keyboard_arrow_down";
-            arrowItem.setAttribute("data-view", itemData.name);
-
-            listContainer.appendChild(listItem);
-            listContainer.appendChild(arrowItem);
-            listEl.appendChild(listContainer);
-        });
-        section.appendChild(listEl);
-        return section;
-    }
-
-    const dataStructuresSection = createSection("Data Structures", dataStructures);
-
-    nav.appendChild(dataStructuresSection);
-    // nav.appendChild(algorithmsSection);
+    nav.appendChild(dsSection);
+    nav.appendChild(algSection);
     return nav;
+}
+
+/**
+ * Recursively creates an unordered list from an array of items.
+ * Each item is expected to have a `name` and optionally a nested array of children
+ * under the property specified by childKey.
+ *
+ * @param {Array} items - Array of objects with at least a `name` property.
+ * @param {String} childKey - The property name that holds nested children (if any).
+ * @param {String} nestedClass - The class if it nested child
+ * @param {String} type - Type for checking it's algorithm or data structure
+ * @returns {HTMLElement} - The UL element containing list items.
+ */
+function createList(items, childKey, nestedClass = '', type) {
+    const ul = document.createElement("ul");
+    items.forEach((item) => {
+        const liContainer = document.createElement("li");
+        if(nestedClass) liContainer.classList.add(nestedClass);
+        liContainer.setAttribute("data-view", item.name);
+
+        const itemContainer = document.createElement("div");
+        itemContainer.classList.add("item-container");
+
+        const itemText = document.createElement("span");
+        itemText.setAttribute("data-view", item.name);
+        itemText.setAttribute("data-type", type)
+        itemText.classList.add('nav-item')
+        itemText.textContent = item.name;
+        itemContainer.appendChild(itemText);
+
+        if(item[childKey] && Array.isArray(item[childKey]) && item[childKey].length) {
+            const nestedUl = createList(item[childKey], childKey, 'nested-item');
+            nestedUl.classList.add("hide")
+
+            const arrow = document.createElement("span");
+            arrow.classList.add("material-symbols-outlined");
+            arrow.textContent = "keyboard_arrow_down";
+
+            arrow.addEventListener("click" , (e) => {
+                e.stopPropagation();
+                nestedUl.classList.toggle("hide");
+                arrow.classList.toggle("rotated");
+            });
+            itemContainer.insertAdjacentElement("beforeend", arrow);
+            itemContainer.appendChild(nestedUl)
+
+        }
+        liContainer.appendChild(itemContainer);
+
+        ul.appendChild(liContainer);
+    })
+    return ul;
 }
