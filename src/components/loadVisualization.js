@@ -79,8 +79,36 @@ export async function loadVisualization(viewName, type) {
         addButton.addEventListener('click', () => {
             if(value.length) {
                 if(dataInstance && typeof dataInstance.append === "function") {
+                    const floatingNode = document.createElement("div");
+                    floatingNode.classList.add("floating-node");
+                    floatingNode.textContent = value;
+                    document.body.appendChild(floatingNode);
+
+                    // Get input position
+                    const inputRect = input.getBoundingClientRect();
+                    floatingNode.style.left = `${inputRect.left}px`;
+                    floatingNode.style.top = `${inputRect.top}px`;
+
+                    requestAnimationFrame(() => {
+                        const nodes = document.querySelectorAll(".node");
+                        if (nodes.length) {
+                            const lastNode = nodes[nodes.length - 1];
+                            const lastNodeRect = lastNode.getBoundingClientRect();
+
+                            // Move floating node to last node position
+                            floatingNode.style.transform = `translate(${lastNodeRect.left - inputRect.left}px, ${lastNodeRect.top - inputRect.top}px)`;
+                            floatingNode.style.transition = "transform 0.8s ease-in-out";
+
+                            // Remove floating node and update list after animation
+                            setTimeout(() => {
+                                floatingNode.remove();
+                                content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+                            }, 800);
+                        }
+                    });
+
                     dataInstance.append(value);
-                    content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+                    content.innerHTML = module.render ? module.render(dataInstance, value) : module.default.render(dataInstance, value);
                 }
                 value = '';
                 input.value = ''

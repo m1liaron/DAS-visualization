@@ -36,15 +36,16 @@ class LinkedList {
     }
 }
 
-export function render(data) {
-    if(!data) return "<p>The data is empty</p>";
+export function render(data, newNodeValue = null) {
+    if(!data.head) return "<p>The data is empty, add something!🔴🔴</p>";
 
     let current = data.head;
     let html = `<div class="visualization linked-list"><div class="node-container">`;
 
     while(current) {
+        let highlightClass = current.data === newNodeValue ? "new-node" : "";
         html += `
-            <div class="node">
+            <div class="node ${highlightClass}">
                 <p class="square right-border">${current.data}</p>
                 <p class="square">${current.next ? current.next.data : "null"}</p>
                 ${current.next ? `<span class="material-symbols-outlined">arrow_right_alt</span>` : ""}
