@@ -22,28 +22,53 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
+header {
   display: flex;
-  place-items: center;
+  align-items: center;
+  background-color: #303030;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
   min-width: 320px;
   min-height: 100vh;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  font-size: 1.2em;
+}
+
 h1 {
-  font-size: 3.2em;
+  font-size: 1.2em;
   line-height: 1.1;
 }
 
+h2, h3, h1 {
+  margin: 0
+}
+
 #app {
-  max-width: 1280px;
+  height: 100%;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
 }
 
 .logo {
-  height: 6em;
+  height: 4em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
@@ -92,5 +117,87 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+/* Content Styles */
+
+#content {
+  margin-left: 15%; /* leave space for the sidebar */
+  padding: 20px;
+}
+
+/*Navigation Bar*/
+
+#burger-menu {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+#sidebar {
+  background-color: #363636;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 15%;
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+span.material-symbols-outlined {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  #burger-menu {
+    display: block;
+  }
+
+  .logo{
+    display: none;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    transform: translateX(-100%); /* Hide by default */
+    z-index: 1000;
+  }
+
+  /* When sidebar is open */
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Remove the margin on main content when sidebar is hidden */
+  #content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  /* Optionally, add an overlay behind the sidebar */
+  #overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 900;
+  }
+  #overlay.active {
+    display: block;
   }
 }
