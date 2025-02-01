@@ -120,10 +120,39 @@ button:focus-visible {
   }
 }
 
+/*Common Styles For Visualization*/
+
+.node-container {
+  display: flex;
+  gap: 1em;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+.square.right-border {
+  border-right: 3px solid #000;
+}
+
+.square {
+  padding: 10px;
+  background: #efefef;
+  color: #000;
+}
+
 /* Content Styles */
 
 #content {
+  width: 100%;
   padding: 20px;
+}
+
+.visualization-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 /*Navigation Bar*/
