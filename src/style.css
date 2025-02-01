@@ -164,6 +164,20 @@ span.material-symbols-outlined {
 
 .nested-item {
   margin-left: 10px;
+  font-size: 0.9em;
+}
+
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.rotated {
+  transform: rotate(-90deg);
 }
 
 @media (max-width: 768px) {

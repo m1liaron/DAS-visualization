@@ -29,21 +29,51 @@ export function navigationRender(algorithms, dataStructures) {
     return nav;
 }
 
+/**
+ * Recursively creates an unordered list from an array of items.
+ * Each item is expected to have a `name` and optionally a nested array of children
+ * under the property specified by childKey.
+ *
+ * @param {Array} items - Array of objects with at least a `name` property.
+ * @param {String} childKey - The property name that holds nested children (if any).
+ * @param {String} nestedClass - The class if it nested child
+ * @returns {HTMLElement} - The UL element containing list items.
+ */
 function createList(items, childKey, nestedClass = '') {
     const ul = document.createElement("ul");
     items.forEach((item) => {
         const li = document.createElement("li");
-        if(nestedClass) {
-            li.classList.add(nestedClass);
-        }
+        if(nestedClass) li.classList.add(nestedClass);
         li.setAttribute("data-view", item.name);
-        li.textContent = item.name;
+
+        const itemContainer = document.createElement("div");
+        itemContainer.classList.add("item-container");
+
+        const itemText = document.createElement("span");
+        itemContainer.textContent = item.name;
+        itemContainer.appendChild(itemText);
 
         if(item[childKey] && Array.isArray(item[childKey]) && item[childKey].length) {
             const nestedUl = createList(item[childKey], childKey, 'nested-item');
-            li.appendChild(nestedUl);
+            nestedUl.classList.add("hide")
+
+            const arrow = document.createElement("span");
+            arrow.classList.add("material-symbols-outlined");
+            arrow.textContent = "keyboard_arrow_down";
+
+            arrow.addEventListener("click" , (e) => {
+                e.stopPropagation();
+                nestedUl.classList.toggle("hide");
+                arrow.classList.toggle("rotated");
+            });
+            itemContainer.insertBefore(arrow, itemText);
+            itemContainer.appendChild(nestedUl)
+
         }
+        li.appendChild(itemContainer);
+
         ul.appendChild(li);
+
     })
     return ul;
 }
