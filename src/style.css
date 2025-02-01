@@ -122,6 +122,22 @@ button:focus-visible {
 
 /*Common Styles For Visualization*/
 
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-input {
+  font-size: 2rem;
+}
+
+.add-button {
+  border-radius: 5px;
+  background-color: #901E1E;
+  padding: 5px;
+}
+
 .node-container {
   display: flex;
   gap: 1em;

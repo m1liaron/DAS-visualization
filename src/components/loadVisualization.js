@@ -1,4 +1,5 @@
 import { algorithms, dataStructures } from "../data/data.js";
+import {LinkedList} from "../dataStructures/linkedList.js";
 
 function findItemByName (viewName, data) {
     for(let item of data) {
@@ -15,6 +16,12 @@ function findItemByName (viewName, data) {
     }
     return null
 }
+
+const linkedList = new LinkedList();
+linkedList.append(5);
+linkedList.append(10);
+linkedList.append(15);
+linkedList.append(9);
 
 export async function loadVisualization(viewName, type) {
     const content = document.querySelector('.visualization-container');
@@ -35,7 +42,19 @@ export async function loadVisualization(viewName, type) {
         const module = await import(/* @vite-ignore */selected.module);
         title.textContent = `Visualize: ${selected.name}`;
         selectedDasContainer.appendChild(title)
-        content.innerHTML = module.render ? module.render() : module.default.render();
+        content.innerHTML = module.render ? module.render(linkedList) : module.default.render(linkedList);
+
+        const inputContainer = document.createElement("div");
+        inputContainer.classList.add('input-container')
+        const input = document.createElement("input");
+        input.classList.add("add-input");
+        input.placeholder = "Data..."
+        const addButton = document.createElement("button");
+        addButton.textContent = "Add Data";
+        addButton.classList.add("add-button");
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(addButton);
+        selectedDasContainer.appendChild(inputContainer);
   } catch (error) {
     console.error(`Error loading ${viewName}:`, error);
     content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;

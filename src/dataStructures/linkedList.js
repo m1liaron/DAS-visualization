@@ -46,7 +46,7 @@ export function render(data) {
         html += `
             <div class="node">
                 <p class="square right-border">${current.data}</p>
-                <p class="square">${current.next}</p>
+                <p class="square">${current.next ? current.next.data : "null"}</p>
                 ${current.next ? `<span class="material-symbols-outlined">arrow_right_alt</span>` : ""}
             </div>`;
         current = current.next;
@@ -55,3 +55,6 @@ export function render(data) {
     html += '<div></div>'
     return html;
 }
+
+
+export { LinkedList }
