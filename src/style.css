@@ -123,7 +123,6 @@ button:focus-visible {
 /* Content Styles */
 
 #content {
-  margin-left: 15%; /* leave space for the sidebar */
   padding: 20px;
 }
 
@@ -140,9 +139,9 @@ button:focus-visible {
 #sidebar {
   background-color: #363636;
   padding: 10px;
-  position: absolute;
+  position: relative;
   min-width: 15%;
-  height: 100%;
+  height: 100vh;
 }
 
 .nav-section {

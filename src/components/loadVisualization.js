@@ -17,7 +17,10 @@ function findItemByName (viewName, data) {
 }
 
 export async function loadVisualization(viewName, type) {
-    const content = document.getElementById('content');
+    const content = document.querySelector('.visualization-container');
+    const selectedDasContainer = document.querySelector('.selected-das');
+    selectedDasContainer.innerHTML = ''
+    const title = document.createElement('h1');
     content.innerHTML = '';
 
     const selectedData = type === 'algorithms' ? algorithms : dataStructures;
@@ -29,8 +32,9 @@ export async function loadVisualization(viewName, type) {
     }
 
     try {
-        const module = await import(selected.module);
-        console.log(module)
+        const module = await import(/* @vite-ignore */selected.module);
+        title.textContent = `Visualize: ${selected.name}`;
+        selectedDasContainer.appendChild(title)
         content.innerHTML = module.render ? module.render() : module.default.render();
   } catch (error) {
     console.error(`Error loading ${viewName}:`, error);
