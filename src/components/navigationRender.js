@@ -1,49 +1,49 @@
 export function navigationRender(algorithms, dataStructures) {
     const nav = document.getElementById("sidebar");
-    nav.innerHTML = "<h2>Visualization</h2>";
+    nav.innerHTML = "";
 
-    function createSection(titleText, items) {
-        const section = document.createElement("section");
+    const dsSection = document.createElement("section");
+    dsSection.classList.add("nav-section");
+    const dsTitle = document.createElement("h3");
+    dsTitle.textContent = "Data Structures";
+    dsSection.appendChild(dsTitle);
 
-        const titleContainer = document.createElement("div");
-        titleContainer.classList.add("flex");
-        const title = document.createElement("h3");
-        title.textContent = titleText;
+    // Create a nested list for data structures
+    const dsList = createList(dataStructures, "children");
+    dsSection.appendChild(dsList);
 
-        const arrowItem = document.createElement("span");
-        arrowItem.className = 'material-symbols-outlined';
-        arrowItem.textContent = "keyboard_arrow_down";
-        arrowItem.setAttribute("data-view", titleText);
+    // --- Algorithms Section ---
+    const algSection = document.createElement("section");
+    algSection.classList.add("nav-section");
+    const algTitle = document.createElement("h3");
+    algTitle.textContent = "Algorithms";
+    algSection.appendChild(algTitle);
 
-        titleContainer.appendChild(title);
-        titleContainer.appendChild(arrowItem);
+    // Create a nested list for algorithms
+    const algList = createList(algorithms, "children");
+    algSection.appendChild(algList);
 
-        section.appendChild(titleContainer);
 
-        const listEl = document.createElement("ul");
-        items.forEach(itemData => {
-            const listContainer = document.createElement("div");
-            listContainer.classList.add("flex");
-            const listItem = document.createElement("li");
-            listItem.setAttribute("data-view", itemData.name);
-            listItem.textContent = itemData.name;
-
-            const arrowItem = document.createElement("span");
-            arrowItem.className = 'material-symbols-outlined';
-            arrowItem.textContent = "keyboard_arrow_down";
-            arrowItem.setAttribute("data-view", itemData.name);
-
-            listContainer.appendChild(listItem);
-            listContainer.appendChild(arrowItem);
-            listEl.appendChild(listContainer);
-        });
-        section.appendChild(listEl);
-        return section;
-    }
-
-    const dataStructuresSection = createSection("Data Structures", dataStructures);
-
-    nav.appendChild(dataStructuresSection);
-    // nav.appendChild(algorithmsSection);
+    nav.appendChild(dsSection);
+    nav.appendChild(algSection);
     return nav;
+}
+
+function createList(items, childKey, nestedClass = '') {
+    const ul = document.createElement("ul");
+    items.forEach((item) => {
+        const li = document.createElement("li");
+        if(nestedClass) {
+            li.classList.add(nestedClass);
+        }
+        li.setAttribute("data-view", item.name);
+        li.textContent = item.name;
+
+        if(item[childKey] && Array.isArray(item[childKey]) && item[childKey].length) {
+            const nestedUl = createList(item[childKey], childKey, 'nested-item');
+            li.appendChild(nestedUl);
+        }
+        ul.appendChild(li);
+    })
+    return ul;
 }

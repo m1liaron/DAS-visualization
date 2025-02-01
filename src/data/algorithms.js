@@ -1,9 +1,9 @@
 const algorithmsPath = '../algorithms/'
 
-const algorithms = {
-    sort: {
+const algorithms = [
+   {
         name: 'Sort',
-        algorithms: [
+        children: [
             {
                 name: 'bubbleSort', module: `${algorithmsPath}bubbleSort`
             },
@@ -15,6 +15,6 @@ const algorithms = {
             },
         ]
     }
-}
+]
 
 export { algorithms };
