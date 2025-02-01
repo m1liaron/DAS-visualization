@@ -167,6 +167,9 @@ span.material-symbols-outlined {
   font-size: 0.9em;
 }
 
+.nav-item {
+  cursor: pointer;
+}
 
 .hide {
   display: none;

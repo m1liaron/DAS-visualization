@@ -19,6 +19,7 @@ document.querySelector('#app').innerHTML = `
           <h2>Visualization</h2>
       </nav>
       <main id="content">
+            <div class="selected-das"></div>
           <!-- Visualization will be rendered here -->
       </main>
       <div id="overlay"></div>
@@ -27,9 +28,10 @@ document.querySelector('#app').innerHTML = `
 navigationRender(algorithms, dataStructures)
 
 document.getElementById('sidebar').addEventListener('click', (e) => {
-  if (e.target && e.target.matches('li[data-view]')) {
+  if (e.target && e.target.matches('span[data-view]')) {
     const viewName = e.target.getAttribute('data-view');
-    loadVisualization(viewName, 'algorithms');
+    const viewType = e.target.getAttribute('data-type');
+    loadVisualization(viewName, viewType);
   }
 });
 

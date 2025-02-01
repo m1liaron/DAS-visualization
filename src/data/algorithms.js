@@ -2,7 +2,7 @@ const algorithmsPath = '../algorithms/'
 
 const algorithms = [
    {
-        name: 'Sort',
+        name: 'sort',
         children: [
             {
                 name: 'bubbleSort', module: `${algorithmsPath}bubbleSort`

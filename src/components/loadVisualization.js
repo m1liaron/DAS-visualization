@@ -1,10 +1,11 @@
-import { algorithms } from "../data/data.js";
+import { algorithms, dataStructures } from "../data/data.js";
 
-export async function loadVisualization(viewName, type ) {
+export async function loadVisualization(viewName, type) {
     const content = document.getElementById('content');
     content.innerHTML = '';
 
-    const selected = algorithms[type].find(item => item.name === viewName);
+    const selectedData = type === 'algorithms' ? algorithms : dataStructures;
+    let selected = findItemByName(viewName, selectedData);
 
     if (!selected) {
         content.innerHTML = `<p>Error: No ${type.slice(0, -1)} found for "${viewName}"</p>`;
@@ -18,4 +19,20 @@ export async function loadVisualization(viewName, type ) {
     console.error(`Error loading ${viewName}:`, error);
     content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
   }
+}
+
+function findItemByName (viewName, data) {
+    for(let item of data) {
+        if(item.name === viewName && item.module) {
+            return item;
+        }
+
+        if(item.children) {
+            if (item.children) {
+                const found = findItemByName(name, item.children);
+                if (found) return found;
+            }
+        }
+    }
+    return null
 }

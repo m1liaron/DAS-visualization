@@ -9,7 +9,7 @@ export function navigationRender(algorithms, dataStructures) {
     dsSection.appendChild(dsTitle);
 
     // Create a nested list for data structures
-    const dsList = createList(dataStructures, "children");
+    const dsList = createList(dataStructures, "children", "dataStructures");
     dsSection.appendChild(dsList);
 
     // --- Algorithms Section ---
@@ -20,7 +20,7 @@ export function navigationRender(algorithms, dataStructures) {
     algSection.appendChild(algTitle);
 
     // Create a nested list for algorithms
-    const algList = createList(algorithms, "children");
+    const algList = createList(algorithms, "children", "algorithms");
     algSection.appendChild(algList);
 
 
@@ -37,20 +37,24 @@ export function navigationRender(algorithms, dataStructures) {
  * @param {Array} items - Array of objects with at least a `name` property.
  * @param {String} childKey - The property name that holds nested children (if any).
  * @param {String} nestedClass - The class if it nested child
+ * @param {String} type - Type for checking it's algorithm or data structure
  * @returns {HTMLElement} - The UL element containing list items.
  */
-function createList(items, childKey, nestedClass = '') {
+function createList(items, childKey, nestedClass = '', type) {
     const ul = document.createElement("ul");
     items.forEach((item) => {
-        const li = document.createElement("li");
-        if(nestedClass) li.classList.add(nestedClass);
-        li.setAttribute("data-view", item.name);
+        const liContainer = document.createElement("li");
+        if(nestedClass) liContainer.classList.add(nestedClass);
+        liContainer.setAttribute("data-view", item.name);
 
         const itemContainer = document.createElement("div");
         itemContainer.classList.add("item-container");
 
         const itemText = document.createElement("span");
-        itemContainer.textContent = item.name;
+        itemText.setAttribute("data-view", item.name);
+        itemText.setAttribute("data-type", type)
+        itemText.classList.add('nav-item')
+        itemText.textContent = item.name;
         itemContainer.appendChild(itemText);
 
         if(item[childKey] && Array.isArray(item[childKey]) && item[childKey].length) {
@@ -66,14 +70,13 @@ function createList(items, childKey, nestedClass = '') {
                 nestedUl.classList.toggle("hide");
                 arrow.classList.toggle("rotated");
             });
-            itemContainer.insertBefore(arrow, itemText);
+            itemContainer.insertAdjacentElement("beforeend", arrow);
             itemContainer.appendChild(nestedUl)
 
         }
-        li.appendChild(itemContainer);
+        liContainer.appendChild(itemContainer);
 
-        ul.appendChild(li);
-
+        ul.appendChild(liContainer);
     })
     return ul;
 }
