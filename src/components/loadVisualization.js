@@ -1,25 +1,10 @@
-const algorithmsPath = '../algorithms/'
+import { algorithms } from "../data/algorithms.js";
 
-const data = {
-    algorithms: [
-        {
-            name: 'bubbleSort', module: `${algorithmsPath}bubbleSort`
-        },
-        {
-            name: 'selectionSort', module: `${algorithmsPath}selectionSort`
-        },
-        {
-            name: 'insertionSort', module: `${algorithmsPath}insertionSort`
-        },
-    ]
-}
-
-
-async function loadVisualization(viewName, type ) {
+export async function loadVisualization(viewName, type ) {
     const content = document.getElementById('content');
     content.innerHTML = '';
 
-    const selected = data[type].find(item => item.name === viewName);
+    const selected = algorithms[type].find(item => item.name === viewName);
 
     if (!selected) {
         content.innerHTML = `<p>Error: No ${type.slice(0, -1)} found for "${viewName}"</p>`;

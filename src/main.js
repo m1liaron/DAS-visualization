@@ -1,5 +1,6 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
+import {loadVisualization} from "./components/loadVisualization.js";
 
 document.querySelector('#app').innerHTML = `
   <div>
@@ -13,14 +14,28 @@ document.querySelector('#app').innerHTML = `
         </a>
       </header>
       <nav id="sidebar">
-            <h2>Algorithms & Data Structures</h2>
-            <ul>
-              <li data-view="bubbleSort">Bubble Sort</li>
-              <li data-view="quickSort">Quick Sort</li>
-              <li data-view="stack">Stack</li>
-              <li data-view="queue">Queue</li>
-              <!-- Add more items as needed -->
-            </ul>
+            <h2>Visualization</h2>
+            <section>
+               <h3>Data Structures</h3>
+              <ul>
+                <li data-view="bubbleSort">Bubble Sort</li>
+                <li data-view="quickSort">Quick Sort</li>
+                <li data-view="stack">Stack</li>
+                <li data-view="queue">Queue</li>
+                <!-- Add more items as needed -->
+              </ul>
+            </section>
+            <section>
+             <h3>Algorithms</h3>
+              <ul>
+                <li data-view="bubbleSort">Bubble Sort</li>
+                <li data-view="quickSort">Quick Sort</li>
+                <li data-view="stack">Stack</li>
+                <li data-view="queue">Queue</li>
+                <!-- Add more items as needed -->
+              </ul>
+            </section>
+
       </nav>
       <main id="content">
           <!-- Visualization will be rendered here -->
