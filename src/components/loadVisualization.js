@@ -49,9 +49,28 @@ export async function loadVisualization(viewName, type) {
         const input = document.createElement("input");
         input.classList.add("add-input");
         input.placeholder = "Data..."
+
+        let value = '';
+        input.addEventListener("change", (e) => {
+            value += e.target.value;
+        })
+
         const addButton = document.createElement("button");
         addButton.textContent = "Add Data";
         addButton.classList.add("add-button");
+
+        addButton.addEventListener('click', () => {
+            if(value.length) {
+                linkedList.append(value);
+                content.innerHTML = module.render ? module.render(linkedList) : module.default.render(linkedList);
+                value = '';
+                input.value = ''
+            } else {
+                alert("Fill up input")
+            }
+        });
+        console.log(linkedList)
+
         inputContainer.appendChild(input);
         inputContainer.appendChild(addButton);
         selectedDasContainer.appendChild(inputContainer);
