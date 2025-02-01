@@ -6,6 +6,7 @@ import {algorithms, dataStructures} from "./data/data.js";
 
 document.querySelector('#app').innerHTML = `
       <header>
+      <button id="burger-menu" aria-label="Toggle Navigation">&#9776;</button>
         <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
           <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
         </a>
@@ -20,6 +21,7 @@ document.querySelector('#app').innerHTML = `
       <main id="content">
           <!-- Visualization will be rendered here -->
       </main>
+      <div id="overlay"></div>
 `
 
 navigationRender(algorithms, dataStructures)
@@ -29,4 +31,21 @@ document.getElementById('sidebar').addEventListener('click', (e) => {
     const viewName = e.target.getAttribute('data-view');
     loadVisualization(viewName, 'algorithms');
   }
+});
+
+// Burger Menu
+
+const burgerMenu = document.getElementById('burger-menu');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+burgerMenu.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
+});
+
+// Optionally, clicking the overlay should close the sidebar
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('active');
 });
