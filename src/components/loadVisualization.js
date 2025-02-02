@@ -1,24 +1,19 @@
 import { algorithms, dataStructures } from "../data/data.js";
+import {LinkedList} from "../dataStructures/linkedList.js";
 
-export async function loadVisualization(viewName, type) {
-    const content = document.getElementById('content');
-    content.innerHTML = '';
+const dataStructureInstances = {};
 
-    const selectedData = type === 'algorithms' ? algorithms : dataStructures;
-    let selected = findItemByName(viewName, selectedData);
-
-    if (!selected) {
-        content.innerHTML = `<p>Error: No ${type.slice(0, -1)} found for "${viewName}"</p>`;
-        return;
+function createInstance(type, viewName) {
+    if(!dataStructureInstances[viewName]) {
+        switch (viewName) {
+            case "linkedList":
+                dataStructureInstances[viewName] = new LinkedList();
+                break
+            default:
+                dataStructureInstances[viewName] = null;
+        }
     }
-
-    try {
-        const module = await import(selected.module);
-        content.innerHTML = module.render ? module.render() : module.default.render();
-  } catch (error) {
-    console.error(`Error loading ${viewName}:`, error);
-    content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
-  }
+    return dataStructureInstances[viewName]
 }
 
 function findItemByName (viewName, data) {
@@ -35,4 +30,98 @@ function findItemByName (viewName, data) {
         }
     }
     return null
+}
+
+const linkedList = new LinkedList();
+linkedList.append(5);
+linkedList.append(10);
+linkedList.append(15);
+linkedList.append(9);
+
+export async function loadVisualization(viewName, type) {
+    const content = document.querySelector('.visualization-container');
+    const selectedDasContainer = document.querySelector('.selected-das');
+    selectedDasContainer.innerHTML = ''
+    const title = document.createElement('h1');
+    content.innerHTML = '';
+
+    const selectedData = type === 'algorithms' ? algorithms : dataStructures;
+    let selected = findItemByName(viewName, selectedData);
+
+    if (!selected) {
+        content.innerHTML = `<p>Error: No ${type.slice(0, -1)} found for "${viewName}"</p>`;
+        return;
+    }
+
+    try {
+        const module = await import(/* @vite-ignore */selected.module);
+        const dataInstance = createInstance(type, viewName);
+
+        title.textContent = `Visualize: ${selected.name}`;
+        selectedDasContainer.appendChild(title)
+        content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+
+        const inputContainer = document.createElement("div");
+        inputContainer.classList.add('input-container')
+        const input = document.createElement("input");
+        input.classList.add("add-input");
+        input.placeholder = "Data..."
+
+        let value = '';
+        input.addEventListener("change", (e) => {
+            value += e.target.value;
+        })
+
+        const addButton = document.createElement("button");
+        addButton.textContent = "Add Data";
+        addButton.classList.add("add-button");
+
+        addButton.addEventListener('click', () => {
+            if(value.length) {
+                if(dataInstance && typeof dataInstance.append === "function") {
+                    const floatingNode = document.createElement("div");
+                    floatingNode.classList.add("floating-node");
+                    floatingNode.textContent = value;
+                    document.body.appendChild(floatingNode);
+
+                    // Get input position
+                    const inputRect = input.getBoundingClientRect();
+                    floatingNode.style.left = `${inputRect.left}px`;
+                    floatingNode.style.top = `${inputRect.top}px`;
+
+                    requestAnimationFrame(() => {
+                        const nodes = document.querySelectorAll(".node");
+                        if (nodes.length) {
+                            const lastNode = nodes[nodes.length - 1];
+                            const lastNodeRect = lastNode.getBoundingClientRect();
+
+                            // Move floating node to last node position
+                            floatingNode.style.transform = `translate(${lastNodeRect.left - inputRect.left}px, ${lastNodeRect.top - inputRect.top}px)`;
+                            floatingNode.style.transition = "transform 0.8s ease-in-out";
+
+                            // Remove floating node and update list after animation
+                            setTimeout(() => {
+                                floatingNode.remove();
+                                content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+                            }, 800);
+                        }
+                    });
+
+                    dataInstance.append(value);
+                    content.innerHTML = module.render ? module.render(dataInstance, value) : module.default.render(dataInstance, value);
+                }
+                value = '';
+                input.value = ''
+            } else {
+                alert("Fill up input")
+            }
+        });
+
+        inputContainer.appendChild(input);
+        inputContainer.appendChild(addButton);
+        selectedDasContainer.appendChild(inputContainer);
+  } catch (error) {
+    console.error(`Error loading ${viewName}:`, error);
+    content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
+  }
 }

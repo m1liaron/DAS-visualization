@@ -120,11 +120,95 @@ button:focus-visible {
   }
 }
 
+/*Common Styles For Visualization*/
+
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-input {
+  font-size: 2rem;
+}
+
+.add-button {
+  border-radius: 5px;
+  background-color: #901E1E;
+  padding: 5px;
+}
+
+.node-container {
+  display: flex;
+  gap: 1em;
+  overflow: auto;
+  width: 80%;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+.square.right-border {
+  border-right: 3px solid #000;
+}
+
+.square {
+  padding: 10px;
+  background: #efefef;
+  color: #000;
+}
+
+/* Visualization Animations */
+
+.new-node {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.floating-node {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  z-index: 1000;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Delay arrow animation to simulate linking */
+.arrow {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out 0.5s forwards;
+}
+
 /* Content Styles */
 
 #content {
-  margin-left: 15%; /* leave space for the sidebar */
+  width: 100%;
   padding: 20px;
+}
+
+.visualization-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 /*Navigation Bar*/
@@ -140,11 +224,10 @@ button:focus-visible {
 #sidebar {
   background-color: #363636;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
+  position: relative;
   min-width: 15%;
-  height: 100%;
+  height: 100vh;
+  transition: 1s;
 }
 
 .nav-section {

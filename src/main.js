@@ -15,13 +15,19 @@ document.querySelector('#app').innerHTML = `
           Github repo
         </a>
       </header>
-      <nav id="sidebar">
-          <h2>Visualization</h2>
-      </nav>
-      <main id="content">
-            <div class="selected-das"></div>
-          <!-- Visualization will be rendered here -->
-      </main>
+      <div style="display: flex">
+          <nav id="sidebar">
+              <h2>Visualization</h2>
+          </nav>
+          <main id="content">
+                <div class="selected-das">
+                </div>
+                <div class="visualization-container">
+                    <h1>Choose something to see visualization!</h1>
+                </div>
+              <!-- Visualization will be rendered here -->
+          </main>
+    </div>
       <div id="overlay"></div>
 `
 
