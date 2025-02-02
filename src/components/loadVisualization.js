@@ -80,9 +80,18 @@ export async function loadVisualization(viewName, type) {
         const addButton = document.createElement("button");
         addButton.textContent = "Add Data";
         addButton.classList.add("add-button");
+
+        const skipPrevButton = document.createElement("span");
+        skipPrevButton.classList.add("material-symbols-outlined");
+        skipPrevButton.textContent = "skip_previous";
+
         const stopButton = document.createElement("span");
         stopButton.classList.add("material-symbols-outlined");
         stopButton.textContent = "pause";
+
+        const skipNextButton = document.createElement("span");
+        skipNextButton.classList.add("material-symbols-outlined");
+        skipNextButton.textContent = "skip_next";
 
         stopButton.addEventListener("click", (e) => {
             if(isAnimationGoes) {
@@ -94,7 +103,9 @@ export async function loadVisualization(viewName, type) {
         })
 
         addButton.addEventListener('click', () => {
-            inputContainer.append(stopButton)
+            inputContainer.append(skipPrevButton);
+            inputContainer.append(stopButton);
+            inputContainer.append(skipNextButton);  
             if (value.length) {
                 if (dataInstance && typeof dataInstance.append === "function") {
                     const floatingNode = document.createElement("div");
