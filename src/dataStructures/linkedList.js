@@ -40,7 +40,7 @@ export function render(data, newNodeValue = null) {
     if(!data.head) return "<p>The data is empty, add something!🔴🔴</p>";
 
     let current = data.head;
-    let html = `<div class="visualization linked-list"><div class="node-container">`;
+    let html = `<div class="node-container">`;
 
     while(current) {
         let highlightClass = current.data === newNodeValue ? "new-node" : "";
