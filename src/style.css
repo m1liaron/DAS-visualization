@@ -151,6 +151,10 @@ button:focus-visible {
   width: 80%;
 }
 
+.selected-node {
+  animation: highlight 1s ease-in;
+}
+
 .node {
   display: flex;
   align-items: center;
@@ -176,7 +180,16 @@ button:focus-visible {
 /* Visualization Animations */
 
 .new-node {
-  animation: fadeIn 1s ease-in;
+  animation: fadeIn 3s ease-in;
+}
+
+@keyframes highlight {
+  from {
+    background-color: #9ECC47;
+  }
+  to {
+    background-color: #ffffff;
+  }
 }
 
 @keyframes fadeIn {

@@ -3,6 +3,10 @@ import {LinkedList} from "../dataStructures/linkedList.js";
 
 const dataStructureInstances = {};
 
+function addVisualization(data, newValue) {
+
+}
+
 function createInstance(type, viewName) {
     if(!dataStructureInstances[viewName]) {
         switch (viewName) {
@@ -72,13 +76,27 @@ export async function loadVisualization(viewName, type) {
             value += e.target.value;
         })
 
+        let isAnimationGoes = false;
         const addButton = document.createElement("button");
         addButton.textContent = "Add Data";
         addButton.classList.add("add-button");
+        const stopButton = document.createElement("span");
+        stopButton.classList.add("material-symbols-outlined");
+        stopButton.textContent = "pause";
+
+        stopButton.addEventListener("click", (e) => {
+            if(isAnimationGoes) {
+                e.target.textContent = "play_arrow";
+            } else {
+                e.target.textContent = "pause"
+            }
+            isAnimationGoes = !isAnimationGoes
+        })
 
         addButton.addEventListener('click', () => {
-            if(value.length) {
-                if(dataInstance && typeof dataInstance.append === "function") {
+            inputContainer.append(stopButton)
+            if (value.length) {
+                if (dataInstance && typeof dataInstance.append === "function") {
                     const floatingNode = document.createElement("div");
                     floatingNode.classList.add("floating-node");
                     floatingNode.textContent = value;
@@ -120,8 +138,8 @@ export async function loadVisualization(viewName, type) {
         inputContainer.appendChild(input);
         inputContainer.appendChild(addButton);
         selectedDasContainer.appendChild(inputContainer);
-  } catch (error) {
-    console.error(`Error loading ${viewName}:`, error);
+    } catch (error) {
+        console.error(`Error loading ${viewName}:`, error);
     content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
   }
 }
