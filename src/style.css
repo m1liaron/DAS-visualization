@@ -54,6 +54,11 @@ h2, h3, h1 {
   margin: 0
 }
 
+p {
+  padding: 0;
+  margin: 0;
+}
+
 #app {
   height: 100%;
   margin: 0 auto;
@@ -155,10 +160,17 @@ button:focus-visible {
   border-right: 3px solid #000;
 }
 
+.node-data {
+  border-bottom: 3px solid #000;
+}
+
 .square {
   padding: 10px;
   background: #efefef;
   color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Visualization Animations */
@@ -224,10 +236,8 @@ button:focus-visible {
 #sidebar {
   background-color: #363636;
   padding: 10px;
-  position: relative;
   min-width: 15%;
   height: 100vh;
-  transition: 1s;
 }
 
 .nav-section {
@@ -283,6 +293,7 @@ span.material-symbols-outlined {
     height: 100%;
     transform: translateX(-100%); /* Hide by default */
     z-index: 1000;
+    transition: 1s;
   }
 
   /* When sidebar is open */
