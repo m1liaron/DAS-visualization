@@ -9,7 +9,7 @@ export function navigationRender(algorithms, dataStructures) {
     dsSection.appendChild(dsTitle);
 
     // Create a nested list for data structures
-    const dsList = createList(dataStructures, "children", "dataStructures");
+    const dsList = createList(dataStructures, "children", '', "dataStructures");
     dsSection.appendChild(dsList);
 
     // --- Algorithms Section ---
@@ -20,7 +20,7 @@ export function navigationRender(algorithms, dataStructures) {
     algSection.appendChild(algTitle);
 
     // Create a nested list for algorithms
-    const algList = createList(algorithms, "children", "algorithms");
+    const algList = createList(algorithms, "children", '', "algorithms");
     algSection.appendChild(algList);
 
 
@@ -58,7 +58,7 @@ function createList(items, childKey, nestedClass = '', type) {
         itemContainer.appendChild(itemText);
 
         if(item[childKey] && Array.isArray(item[childKey]) && item[childKey].length) {
-            const nestedUl = createList(item[childKey], childKey, 'nested-item');
+            const nestedUl = createList(item[childKey], childKey, 'nested-item', type);
             nestedUl.classList.add("hide")
 
             const arrow = document.createElement("span");

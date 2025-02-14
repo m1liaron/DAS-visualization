@@ -7,7 +7,7 @@ function addVisualization(data, newValue) {
 
 }
 
-function createInstance(type, viewName) {
+function createInstance(viewName) {
     if(!dataStructureInstances[viewName]) {
         switch (viewName) {
             case "linkedList":
@@ -28,19 +28,13 @@ function findItemByName (viewName, data) {
 
         if(item.children) {
             if (item.children) {
-                const found = findItemByName(name, item.children);
+                const found = findItemByName(viewName, item.children);
                 if (found) return found;
             }
         }
     }
     return null
 }
-
-const linkedList = new LinkedList();
-linkedList.append(5);
-linkedList.append(10);
-linkedList.append(15);
-linkedList.append(9);
 
 export async function loadVisualization(viewName, type) {
     const content = document.querySelector('.visualization-container');
@@ -59,7 +53,7 @@ export async function loadVisualization(viewName, type) {
 
     try {
         const module = await import(/* @vite-ignore */selected.module);
-        const dataInstance = createInstance(type, viewName);
+        const dataInstance = createInstance(viewName);
 
         title.textContent = `Visualize: ${selected.name}`;
         selectedDasContainer.appendChild(title)
