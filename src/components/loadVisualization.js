@@ -1,7 +1,11 @@
+import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import {LinkedList} from "../dataStructures/linkedList.js";
 
 const dataStructureInstances = {};
+const arrayAlgoritms = [5,2,20,0,10,24, 1];
+let animationsSteps = [];
+let animationStepIndex = 0;
 
 function addVisualization(data, newValue) {
 
@@ -44,6 +48,7 @@ export async function loadVisualization(viewName, type) {
     content.innerHTML = '';
 
     const selectedData = type === 'algorithms' ? algorithms : dataStructures;
+    const isDataStructures = type === 'dataStructures';
     let selected = findItemByName(viewName, selectedData);
 
     if (!selected) {
@@ -57,7 +62,11 @@ export async function loadVisualization(viewName, type) {
 
         title.textContent = `Visualize: ${selected.name}`;
         selectedDasContainer.appendChild(title)
-        content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+        if(!isDataStructures) {
+            content.innerHTML = module.render ? module.render(arrayAlgoritms) : module.default.render(arrayAlgoritms);
+        } else {
+            content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+        }
 
         const inputContainer = document.createElement("div");
         inputContainer.classList.add('input-container')
@@ -79,22 +88,44 @@ export async function loadVisualization(viewName, type) {
         skipPrevButton.classList.add("material-symbols-outlined");
         skipPrevButton.textContent = "skip_previous";
 
-        const stopButton = document.createElement("span");
-        stopButton.classList.add("material-symbols-outlined");
-        stopButton.textContent = "pause";
+        const stopAndStartButton = document.createElement("span");
+        stopAndStartButton.classList.add("material-symbols-outlined");
+        stopAndStartButton.textContent = "play_arrow";
 
         const skipNextButton = document.createElement("span");
         skipNextButton.classList.add("material-symbols-outlined");
         skipNextButton.textContent = "skip_next";
 
-        stopButton.addEventListener("click", (e) => {
+        skipPrevButton.addEventListener("click", () => {
+            if(animationStepIndex > 0) {
+                animationStepIndex--;
+                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+            }
+            console.log(animationStepIndex);
+            console.log(animationsSteps);
+        }); 
+
+        stopAndStartButton.addEventListener("click", (e) => {
             if(isAnimationGoes) {
-                e.target.textContent = "play_arrow";
+                e.target.textContent = "pause";
+                animationsSteps = bubbleSort(arrayAlgoritms);
+                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
             } else {
-                e.target.textContent = "pause"
+                e.target.textContent = "play_arrow"
             }
             isAnimationGoes = !isAnimationGoes
+            console.log(animationStepIndex);
+            console.log(animationsSteps);
         })
+
+        skipNextButton.addEventListener("click", () => {
+            if(animationStepIndex < animationsSteps.length - 1) {
+                animationStepIndex += 1;
+                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+            }
+            console.log(animationStepIndex);
+            console.log(animationsSteps);
+        }); 
 
         addButton.addEventListener('click', () => {
             inputContainer.append(skipPrevButton);
@@ -140,9 +171,15 @@ export async function loadVisualization(viewName, type) {
             }
         });
 
-        inputContainer.appendChild(input);
-        inputContainer.appendChild(addButton);
-        selectedDasContainer.appendChild(inputContainer);
+        if(isDataStructures) {
+            inputContainer.appendChild(input);
+            inputContainer.appendChild(addButton);
+            selectedDasContainer.appendChild(inputContainer);
+        } else {
+            selectedDasContainer.appendChild(skipPrevButton)
+            selectedDasContainer.appendChild(stopAndStartButton)
+            selectedDasContainer.appendChild(skipNextButton)
+        }
     } catch (error) {
         console.error(`Error loading ${viewName}:`, error);
     content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
