@@ -5,12 +5,15 @@ export function bubbleSort(arr) {
     let array = [...arr];
 
     for (let i = 0; i < n - 1; i++) {
-        for (let j = 0; j < n - i - 1; j++) {
+        let swapped = false;
+        for (let j = 0; j < n - 1 - i; j++) {
             if (array[j] > array[j + 1]) {
                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
-                steps.push([...array]); 
+                swapped = true;
             }
         }
+        steps.push([...array]);
+        if(!swapped) break;
     }
     return steps;
 }

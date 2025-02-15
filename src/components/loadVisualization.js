@@ -101,36 +101,35 @@ export async function loadVisualization(viewName, type) {
                 animationStepIndex--;
                 content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
             }
-            console.log(animationStepIndex);
-            console.log(animationsSteps);
-        }); 
+        });
 
         stopAndStartButton.addEventListener("click", (e) => {
             if(isAnimationGoes) {
                 e.target.textContent = "pause";
                 animationsSteps = bubbleSort(arrayAlgoritms);
                 content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+
+                if(animationStepIndex < animationsSteps.length - 1) {
+                    setInterval(() => {
+                        skipNextStep();
+                    }, 1000);
+                }
             } else {
                 e.target.textContent = "play_arrow"
             }
             isAnimationGoes = !isAnimationGoes
-            console.log(animationStepIndex);
-            console.log(animationsSteps);
         })
 
-        skipNextButton.addEventListener("click", () => {
+        function skipNextStep() {
             if(animationStepIndex < animationsSteps.length - 1) {
                 animationStepIndex += 1;
                 content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
             }
-            console.log(animationStepIndex);
-            console.log(animationsSteps);
-        }); 
+        }
+
+        skipNextButton.addEventListener("click", skipNextStep);
 
         addButton.addEventListener('click', () => {
-            inputContainer.append(skipPrevButton);
-            inputContainer.append(stopButton);
-            inputContainer.append(skipNextButton);  
             if (value.length) {
                 if (dataInstance && typeof dataInstance.append === "function") {
                     const floatingNode = document.createElement("div");
