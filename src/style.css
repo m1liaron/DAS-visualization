@@ -54,6 +54,11 @@ h2, h3, h1 {
   margin: 0
 }
 
+p {
+  padding: 0;
+  margin: 0;
+}
+
 #app {
   height: 100%;
   margin: 0 auto;
@@ -122,6 +127,7 @@ button:focus-visible {
 
 /*Common Styles For Visualization*/
 
+ /* Data Structures  */
 .input-container {
   display: flex;
   flex-wrap: wrap;
@@ -144,6 +150,12 @@ button:focus-visible {
   gap: 1em;
   overflow: auto;
   width: 80%;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.selected-node {
+  animation: highlight 1s ease-in;
 }
 
 .node {
@@ -155,16 +167,59 @@ button:focus-visible {
   border-right: 3px solid #000;
 }
 
+.node-data {
+  border-bottom: 3px solid #000;
+}
+
 .square {
   padding: 10px;
   background: #efefef;
   color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+ /* Algorithms  */
+
+  .pillar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pillar {
+    width: 40px;
+    min-height: 10px;
+    background-color: #8b8b8b;
+  }
+
+.pillar {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.current {
+  background-color: yellow; /* Current checked item */
+}
+
+.swap {
+  background-color: red; /* Swapped items */
+}
+
 
 /* Visualization Animations */
 
 .new-node {
-  animation: fadeIn 1s ease-in;
+  animation: fadeIn 3s ease-in;
+}
+
+@keyframes highlight {
+  from {
+    background-color: #9ECC47;
+  }
+  to {
+    background-color: #ffffff;
+  }
 }
 
 @keyframes fadeIn {
@@ -224,10 +279,8 @@ button:focus-visible {
 #sidebar {
   background-color: #363636;
   padding: 10px;
-  position: relative;
   min-width: 15%;
   height: 100vh;
-  transition: 1s;
 }
 
 .nav-section {
@@ -283,6 +336,7 @@ span.material-symbols-outlined {
     height: 100%;
     transform: translateX(-100%); /* Hide by default */
     z-index: 1000;
+    transition: 1s;
   }
 
   /* When sidebar is open */

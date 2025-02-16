@@ -1,9 +1,18 @@
+import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import {LinkedList} from "../dataStructures/linkedList.js";
+import {createElement} from "../features/features.js";
 
 const dataStructureInstances = {};
+const arrayAlgoritms = { array: [5,2,20,0,10,24, 1], currentIndex: 0, swapIndices: []};
+let animationsSteps = [];
+let animationStepIndex = 0;
 
-function createInstance(type, viewName) {
+function addVisualization(data, newValue) {
+
+}
+
+function createInstance(viewName) {
     if(!dataStructureInstances[viewName]) {
         switch (viewName) {
             case "linkedList":
@@ -24,19 +33,13 @@ function findItemByName (viewName, data) {
 
         if(item.children) {
             if (item.children) {
-                const found = findItemByName(name, item.children);
+                const found = findItemByName(viewName, item.children);
                 if (found) return found;
             }
         }
     }
     return null
 }
-
-const linkedList = new LinkedList();
-linkedList.append(5);
-linkedList.append(10);
-linkedList.append(15);
-linkedList.append(9);
 
 export async function loadVisualization(viewName, type) {
     const content = document.querySelector('.visualization-container');
@@ -46,6 +49,7 @@ export async function loadVisualization(viewName, type) {
     content.innerHTML = '';
 
     const selectedData = type === 'algorithms' ? algorithms : dataStructures;
+    const isDataStructures = type === 'dataStructures';
     let selected = findItemByName(viewName, selectedData);
 
     if (!selected) {
@@ -55,11 +59,15 @@ export async function loadVisualization(viewName, type) {
 
     try {
         const module = await import(/* @vite-ignore */selected.module);
-        const dataInstance = createInstance(type, viewName);
+        const dataInstance = createInstance(viewName);
 
         title.textContent = `Visualize: ${selected.name}`;
         selectedDasContainer.appendChild(title)
-        content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+        if(!isDataStructures) {
+            content.innerHTML = module.render ? module.render(arrayAlgoritms) : module.default.render(arrayAlgoritms);
+        } else {
+            content.innerHTML = module.render ? module.render(dataInstance) : module.default.render(dataInstance);
+        }
 
         const inputContainer = document.createElement("div");
         inputContainer.classList.add('input-container')
@@ -72,13 +80,89 @@ export async function loadVisualization(viewName, type) {
             value += e.target.value;
         })
 
+        let isAnimationGoes = false;
         const addButton = document.createElement("button");
         addButton.textContent = "Add Data";
         addButton.classList.add("add-button");
 
+        const skipPrevButton = document.createElement("span");
+        skipPrevButton.classList.add("material-symbols-outlined");
+        skipPrevButton.textContent = "skip_previous";
+
+        const stopAndStartButton = document.createElement("span");
+        stopAndStartButton.classList.add("material-symbols-outlined");
+        stopAndStartButton.textContent = "play_arrow";
+
+        const skipNextButton = document.createElement("span");
+        skipNextButton.classList.add("material-symbols-outlined");
+        skipNextButton.textContent = "skip_next";
+
+        const animationsStepsText = document.createElement("p");
+        animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
+
+        const speedInputRange = document.createElement('input');
+        speedInputRange.type = "range";
+        speedInputRange.min = "100";
+        speedInputRange.max = "5000";
+        const speedText = document.createElement('p');
+        speedText.textContent = `${speedInputRange.value / 1000}s`;
+
+        speedInputRange.addEventListener("change", (e) => {
+            speedText.textContent = `${e.target.value / 1000}s`;
+        });
+
+        function updateAnimationStatus() {
+            animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
+        }
+
+        function renderContentHtml () {
+            content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+            updateAnimationStatus();
+        }
+
+        skipPrevButton.addEventListener("click", () => {
+            if(animationStepIndex > 0) {
+                animationStepIndex--;
+                renderContentHtml();
+            }
+        });
+
+        let animationInterval = null;
+
+        stopAndStartButton.addEventListener("click", (e) => {
+            isAnimationGoes = !isAnimationGoes
+            if(isAnimationGoes) {
+                e.target.textContent = "pause";
+                animationsSteps = bubbleSort(arrayAlgoritms.array);
+                renderContentHtml();
+
+                if(isAnimationGoes && animationStepIndex < animationsSteps.length - 1) {
+                    animationInterval = setInterval(() => {
+                        skipNextStep();
+                    }, Number(speedInputRange.value));
+                }
+            } else  {
+                e.target.textContent = "play_arrow";
+                clearInterval(animationInterval);
+            }
+        })
+
+        function skipNextStep() {
+            if(animationStepIndex < animationsSteps.length - 1) {
+                animationStepIndex += 1;
+                renderContentHtml();
+            } else {
+                clearInterval(animationInterval);
+                isAnimationGoes = false;
+                stopAndStartButton.textContent = "play_arrow";
+            }
+        }
+
+        skipNextButton.addEventListener("click", skipNextStep);
+
         addButton.addEventListener('click', () => {
-            if(value.length) {
-                if(dataInstance && typeof dataInstance.append === "function") {
+            if (value.length) {
+                if (dataInstance && typeof dataInstance.append === "function") {
                     const floatingNode = document.createElement("div");
                     floatingNode.classList.add("floating-node");
                     floatingNode.textContent = value;
@@ -117,11 +201,21 @@ export async function loadVisualization(viewName, type) {
             }
         });
 
-        inputContainer.appendChild(input);
-        inputContainer.appendChild(addButton);
-        selectedDasContainer.appendChild(inputContainer);
-  } catch (error) {
-    console.error(`Error loading ${viewName}:`, error);
+        if(isDataStructures) {
+            inputContainer.appendChild(input);
+            inputContainer.appendChild(addButton);
+            selectedDasContainer.appendChild(inputContainer);
+        } else {
+            selectedDasContainer.appendChild(skipPrevButton)
+            selectedDasContainer.appendChild(stopAndStartButton)
+            selectedDasContainer.appendChild(skipNextButton)
+            selectedDasContainer.appendChild(animationsStepsText);
+
+            selectedDasContainer.appendChild(speedInputRange);
+            selectedDasContainer.appendChild(speedText);
+        }
+    } catch (error) {
+        console.error(`Error loading ${viewName}:`, error);
     content.innerHTML = `<p>Error loading ${viewName} visualization</p>`;
   }
 }

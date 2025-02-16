@@ -45,11 +45,21 @@ export function render(data, newNodeValue = null) {
     while(current) {
         let highlightClass = current.data === newNodeValue ? "new-node" : "";
         html += `
-            <div class="node ${highlightClass}">
-                <p class="square right-border">${current.data}</p>
-                <p class="square">${current.next ? current.next.data : "null"}</p>
-                ${current.next ? `<span class="material-symbols-outlined">arrow_right_alt</span>` : ""}
-            </div>`;
+            <div>
+                <p>node</p>
+                <div class="node ${highlightClass}">
+                    <div class="square right-border">
+                        <p class="node-data">${current.data}</p>
+                        <p>data</p>
+                    </div>
+                    <div class="square">
+                        <p class="node-data">${current.next ? current.next.data : "null"}</p>
+                        <p>next</p>
+                    </div>
+                    ${current.next ? `<span class="material-symbols-outlined">arrow_right_alt</span>` : ""}
+                </div>
+            </div>        
+        `;
         current = current.next;
     }
 
