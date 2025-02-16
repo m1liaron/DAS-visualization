@@ -1,7 +1,6 @@
 import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import { LinkedList } from "../dataStructures/linkedList.js";
-import { createElement } from "../features/features.js";
 
 const dataStructureInstances = {};
 const arrayAlgoritms = {
@@ -11,8 +10,6 @@ const arrayAlgoritms = {
 };
 let animationsSteps = [];
 let animationStepIndex = 0;
-
-function addVisualization(data, newValue) {}
 
 function createInstance(viewName) {
 	if (!dataStructureInstances[viewName]) {
@@ -75,6 +72,11 @@ export async function loadVisualization(viewName, type) {
 				: module.default.render(dataInstance);
 		}
 
+		let isAnimationGoes = false;
+		let animationInterval = null;
+		animationsSteps = [];
+		animationStepIndex = 0;
+
 		const inputContainer = document.createElement("div");
 		inputContainer.classList.add("input-container");
 		const input = document.createElement("input");
@@ -86,7 +88,6 @@ export async function loadVisualization(viewName, type) {
 			value += e.target.value;
 		});
 
-		let isAnimationGoes = false;
 		const addButton = document.createElement("button");
 		addButton.textContent = "Add Data";
 		addButton.classList.add("add-button");
@@ -135,13 +136,12 @@ export async function loadVisualization(viewName, type) {
 			}
 		});
 
-		let animationInterval = null;
-
 		stopAndStartButton.addEventListener("click", (e) => {
 			isAnimationGoes = !isAnimationGoes;
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
-				animationsSteps = bubbleSort(arrayAlgoritms.array);
+				const algorithmFunction = module[viewName];
+				animationsSteps = algorithmFunction(...[arrayAlgoritms.array]);
 				renderContentHtml();
 
 				if (
