@@ -1,6 +1,7 @@
 import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import {LinkedList} from "../dataStructures/linkedList.js";
+import {createElement} from "../features/features.js";
 
 const dataStructureInstances = {};
 const arrayAlgoritms = { array: [5,2,20,0,10,24, 1], currentIndex: 0, swapIndices: []};
@@ -96,8 +97,16 @@ export async function loadVisualization(viewName, type) {
         skipNextButton.classList.add("material-symbols-outlined");
         skipNextButton.textContent = "skip_next";
 
+        const animationsStepsText = document.createElement("p");
+        animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
+
+        function updateAnimationStatus() {
+            animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
+        }
+
         function renderContentHtml () {
             content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+            updateAnimationStatus();
         }
 
         skipPrevButton.addEventListener("click", () => {
@@ -110,6 +119,7 @@ export async function loadVisualization(viewName, type) {
         let animationInterval = null;
 
         stopAndStartButton.addEventListener("click", (e) => {
+            isAnimationGoes = !isAnimationGoes
             if(isAnimationGoes) {
                 e.target.textContent = "pause";
                 animationsSteps = bubbleSort(arrayAlgoritms.array);
@@ -120,12 +130,10 @@ export async function loadVisualization(viewName, type) {
                         skipNextStep();
                     }, 100);
                 }
-            } else {
-                console.log('stop animation in addEvent')
+            } else  {
                 e.target.textContent = "play_arrow";
                 clearInterval(animationInterval);
             }
-            isAnimationGoes = !isAnimationGoes
         })
 
         function skipNextStep() {
@@ -133,7 +141,6 @@ export async function loadVisualization(viewName, type) {
                 animationStepIndex += 1;
                 renderContentHtml();
             } else {
-                console.log('stop animation in next step')
                 clearInterval(animationInterval);
                 isAnimationGoes = false;
                 stopAndStartButton.textContent = "play_arrow";
@@ -191,6 +198,7 @@ export async function loadVisualization(viewName, type) {
             selectedDasContainer.appendChild(skipPrevButton)
             selectedDasContainer.appendChild(stopAndStartButton)
             selectedDasContainer.appendChild(skipNextButton)
+            selectedDasContainer.appendChild(animationsStepsText);
         }
     } catch (error) {
         console.error(`Error loading ${viewName}:`, error);
