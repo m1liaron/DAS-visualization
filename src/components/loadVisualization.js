@@ -107,6 +107,8 @@ export async function loadVisualization(viewName, type) {
             }
         });
 
+        let animationInterval = null;
+
         stopAndStartButton.addEventListener("click", (e) => {
             if(isAnimationGoes) {
                 e.target.textContent = "pause";
@@ -114,12 +116,14 @@ export async function loadVisualization(viewName, type) {
                 renderContentHtml();
 
                 if(isAnimationGoes && animationStepIndex < animationsSteps.length - 1) {
-                    setInterval(() => {
+                    animationInterval = setInterval(() => {
                         skipNextStep();
-                    }, 1000);
+                    }, 100);
                 }
             } else {
-                e.target.textContent = "play_arrow"
+                console.log('stop animation in addEvent')
+                e.target.textContent = "play_arrow";
+                clearInterval(animationInterval);
             }
             isAnimationGoes = !isAnimationGoes
         })
@@ -128,6 +132,11 @@ export async function loadVisualization(viewName, type) {
             if(animationStepIndex < animationsSteps.length - 1) {
                 animationStepIndex += 1;
                 renderContentHtml();
+            } else {
+                console.log('stop animation in next step')
+                clearInterval(animationInterval);
+                isAnimationGoes = false;
+                stopAndStartButton.textContent = "play_arrow";
             }
         }
 
