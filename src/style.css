@@ -194,6 +194,19 @@ button:focus-visible {
     background-color: #8b8b8b;
   }
 
+.pillar {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.current {
+  background-color: yellow; /* Current checked item */
+}
+
+.swap {
+  background-color: red; /* Swapped items */
+}
+
+
 /* Visualization Animations */
 
 .new-node {

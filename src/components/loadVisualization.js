@@ -3,7 +3,7 @@ import { algorithms, dataStructures } from "../data/data.js";
 import {LinkedList} from "../dataStructures/linkedList.js";
 
 const dataStructureInstances = {};
-const arrayAlgoritms = [5,2,20,0,10,24, 1];
+const arrayAlgoritms = { array: [5,2,20,0,10,24, 1], currentIndex: 0, swapIndices: []};
 let animationsSteps = [];
 let animationStepIndex = 0;
 
@@ -96,20 +96,24 @@ export async function loadVisualization(viewName, type) {
         skipNextButton.classList.add("material-symbols-outlined");
         skipNextButton.textContent = "skip_next";
 
+        function renderContentHtml () {
+            content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+        }
+
         skipPrevButton.addEventListener("click", () => {
             if(animationStepIndex > 0) {
                 animationStepIndex--;
-                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+                renderContentHtml();
             }
         });
 
         stopAndStartButton.addEventListener("click", (e) => {
             if(isAnimationGoes) {
                 e.target.textContent = "pause";
-                animationsSteps = bubbleSort(arrayAlgoritms);
-                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+                animationsSteps = bubbleSort(arrayAlgoritms.array);
+                renderContentHtml();
 
-                if(animationStepIndex < animationsSteps.length - 1) {
+                if(isAnimationGoes && animationStepIndex < animationsSteps.length - 1) {
                     setInterval(() => {
                         skipNextStep();
                     }, 1000);
@@ -123,7 +127,7 @@ export async function loadVisualization(viewName, type) {
         function skipNextStep() {
             if(animationStepIndex < animationsSteps.length - 1) {
                 animationStepIndex += 1;
-                content.innerHTML = module.render ? module.render(animationsSteps[animationStepIndex]) : module.default.render(animationsSteps[animationStepIndex]);
+                renderContentHtml();
             }
         }
 
