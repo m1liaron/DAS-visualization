@@ -100,6 +100,17 @@ export async function loadVisualization(viewName, type) {
         const animationsStepsText = document.createElement("p");
         animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
 
+        const speedInputRange = document.createElement('input');
+        speedInputRange.type = "range";
+        speedInputRange.min = "100";
+        speedInputRange.max = "5000";
+        const speedText = document.createElement('p');
+        speedText.textContent = `${speedInputRange.value / 1000}s`;
+
+        speedInputRange.addEventListener("change", (e) => {
+            speedText.textContent = `${e.target.value / 1000}s`;
+        });
+
         function updateAnimationStatus() {
             animationsStepsText.textContent = `Step: ${animationStepIndex + 1}/${animationsSteps.length}`;
         }
@@ -128,7 +139,7 @@ export async function loadVisualization(viewName, type) {
                 if(isAnimationGoes && animationStepIndex < animationsSteps.length - 1) {
                     animationInterval = setInterval(() => {
                         skipNextStep();
-                    }, 100);
+                    }, Number(speedInputRange.value));
                 }
             } else  {
                 e.target.textContent = "play_arrow";
@@ -199,6 +210,9 @@ export async function loadVisualization(viewName, type) {
             selectedDasContainer.appendChild(stopAndStartButton)
             selectedDasContainer.appendChild(skipNextButton)
             selectedDasContainer.appendChild(animationsStepsText);
+
+            selectedDasContainer.appendChild(speedInputRange);
+            selectedDasContainer.appendChild(speedText);
         }
     } catch (error) {
         console.error(`Error loading ${viewName}:`, error);
