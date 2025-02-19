@@ -4,7 +4,7 @@ import { LinkedList } from "../dataStructures/linkedList.js";
 
 const dataStructureInstances = {};
 const arrayAlgoritms = {
-	array: [5, 2, 20, 0, 10, 24, 1],
+	array: [5, 2, 20, 0, 10, 24, 1, 55, 99, 88, 76, 21, 45],
 	currentIndex: 0,
 	swapIndices: [],
 };
@@ -92,6 +92,10 @@ export async function loadVisualization(viewName, type) {
 		addButton.textContent = "Add Data";
 		addButton.classList.add("add-button");
 
+		const skipFirstPrevButton = document.createElement("span");
+		skipFirstPrevButton.classList.add("material-symbols-outlined");
+		skipFirstPrevButton.textContent = "restart_alt";
+
 		const skipPrevButton = document.createElement("span");
 		skipPrevButton.classList.add("material-symbols-outlined");
 		skipPrevButton.textContent = "skip_previous";
@@ -111,9 +115,11 @@ export async function loadVisualization(viewName, type) {
 		speedInputRange.type = "range";
 		speedInputRange.min = "100";
 		speedInputRange.max = "5000";
+		speedInputRange.value = "1000"
 		const speedText = document.createElement("p");
 		speedText.textContent = `${speedInputRange.value / 1000}s`;
 
+		console.log(speedInputRange.value)
 		speedInputRange.addEventListener("change", (e) => {
 			speedText.textContent = `${e.target.value / 1000}s`;
 		});
@@ -129,10 +135,16 @@ export async function loadVisualization(viewName, type) {
 			updateAnimationStatus();
 		}
 
+		skipFirstPrevButton.addEventListener("click", () => {
+			animationStepIndex = 0;
+			renderContentHtml();
+		});
+
 		skipPrevButton.addEventListener("click", () => {
 			if (animationStepIndex > 0) {
 				animationStepIndex--;
 				renderContentHtml();
+				isAnimationGoes = false;
 			}
 		});
 
@@ -141,7 +153,6 @@ export async function loadVisualization(viewName, type) {
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
 				const algorithmFunction = module[viewName];
-				console.log(module)
 				animationsSteps = algorithmFunction(...[arrayAlgoritms.array]);
 				renderContentHtml();
 
@@ -222,6 +233,7 @@ export async function loadVisualization(viewName, type) {
 			inputContainer.appendChild(addButton);
 			selectedDasContainer.appendChild(inputContainer);
 		} else {
+			selectedDasContainer.appendChild(skipFirstPrevButton)
 			selectedDasContainer.appendChild(skipPrevButton);
 			selectedDasContainer.appendChild(stopAndStartButton);
 			selectedDasContainer.appendChild(skipNextButton);

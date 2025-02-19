@@ -187,8 +187,10 @@ button:focus-visible {
 }
 
 .pillar {
-	width: 40px;
+	min-width: 40px;
+	width: auto;
 	min-height: 10px;
+	max-height: 50vh;
 	background-color: #8b8b8b;
 }
 

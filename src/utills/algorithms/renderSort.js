@@ -1,4 +1,5 @@
 function render({ array, currentIndex, swapIndices }) {
+    const maxNum = Math.max.apply(null, array);
     let html = `<div class="node-container">`;
     for (let i = 0; i < array.length; i++) {
         let highlightClass = "";
@@ -8,10 +9,11 @@ function render({ array, currentIndex, swapIndices }) {
             highlightClass = "current"; // Highlight current checked item
         }
         const num = array[i];
+        const height = (num / maxNum) * 40 + 10;
 
         html += `            
             <div class="pillar-container">
-                    <div class="pillar ${highlightClass}" style="height: ${num + 10}vh;"></div>
+                    <div class="pillar ${highlightClass}" style="height: ${height}vh;"></div>
                     <p>${num}</p>
             </div>
         `;
