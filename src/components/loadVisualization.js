@@ -74,6 +74,7 @@ export async function loadVisualization(viewName, type) {
 
 		let isAnimationGoes = false;
 		let animationInterval = null;
+		clearInterval(animationInterval)
 		animationsSteps = [];
 		animationStepIndex = 0;
 
@@ -119,7 +120,6 @@ export async function loadVisualization(viewName, type) {
 		const speedText = document.createElement("p");
 		speedText.textContent = `${speedInputRange.value / 1000}s`;
 
-		console.log(speedInputRange.value)
 		speedInputRange.addEventListener("change", (e) => {
 			speedText.textContent = `${e.target.value / 1000}s`;
 		});
