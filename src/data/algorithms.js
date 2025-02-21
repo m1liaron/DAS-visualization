@@ -16,6 +16,10 @@ const algorithms = [
 				name: "insertionSort",
 				module: `${algorithmsPath}insertionSort`,
 			},
+			{
+				name: "mergeSort",
+				module: `${algorithmsPath}mergeSort`,
+			},
 		],
 	},
 ];
