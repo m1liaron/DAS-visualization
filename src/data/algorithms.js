@@ -20,6 +20,10 @@ const algorithms = [
 				name: "mergeSort",
 				module: `${algorithmsPath}mergeSort`,
 			},
+			{
+				name: "quickSort",
+				module: `${algorithmsPath}quickSort`,
+			},
 		],
 	},
 ];
