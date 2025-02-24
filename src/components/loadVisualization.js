@@ -1,18 +1,15 @@
 import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import { LinkedList } from "../dataStructures/linkedList.js";
-import { createElement } from "../features/features.js";
 
 const dataStructureInstances = {};
 const arrayAlgoritms = {
-	array: [5, 2, 20, 0, 10, 24, 1],
+	array: [5, 2, 20, 0, 10, 24, 1, 55, 99, 88, 76, 21, 45],
 	currentIndex: 0,
 	swapIndices: [],
 };
 let animationsSteps = [];
 let animationStepIndex = 0;
-
-function addVisualization(data, newValue) {}
 
 function createInstance(viewName) {
 	if (!dataStructureInstances[viewName]) {
@@ -75,6 +72,12 @@ export async function loadVisualization(viewName, type) {
 				: module.default.render(dataInstance);
 		}
 
+		let isAnimationGoes = false;
+		let animationInterval = null;
+		clearInterval(animationInterval)
+		animationsSteps = [];
+		animationStepIndex = 0;
+
 		const inputContainer = document.createElement("div");
 		inputContainer.classList.add("input-container");
 		const input = document.createElement("input");
@@ -86,10 +89,13 @@ export async function loadVisualization(viewName, type) {
 			value += e.target.value;
 		});
 
-		let isAnimationGoes = false;
 		const addButton = document.createElement("button");
 		addButton.textContent = "Add Data";
 		addButton.classList.add("add-button");
+
+		const skipFirstPrevButton = document.createElement("span");
+		skipFirstPrevButton.classList.add("material-symbols-outlined");
+		skipFirstPrevButton.textContent = "restart_alt";
 
 		const skipPrevButton = document.createElement("span");
 		skipPrevButton.classList.add("material-symbols-outlined");
@@ -110,6 +116,7 @@ export async function loadVisualization(viewName, type) {
 		speedInputRange.type = "range";
 		speedInputRange.min = "100";
 		speedInputRange.max = "5000";
+		speedInputRange.value = "1000"
 		const speedText = document.createElement("p");
 		speedText.textContent = `${speedInputRange.value / 1000}s`;
 
@@ -128,20 +135,25 @@ export async function loadVisualization(viewName, type) {
 			updateAnimationStatus();
 		}
 
+		skipFirstPrevButton.addEventListener("click", () => {
+			animationStepIndex = 0;
+			renderContentHtml();
+		});
+
 		skipPrevButton.addEventListener("click", () => {
 			if (animationStepIndex > 0) {
 				animationStepIndex--;
 				renderContentHtml();
+				isAnimationGoes = false;
 			}
 		});
-
-		let animationInterval = null;
 
 		stopAndStartButton.addEventListener("click", (e) => {
 			isAnimationGoes = !isAnimationGoes;
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
-				animationsSteps = bubbleSort(arrayAlgoritms.array);
+				const algorithmFunction = module[viewName];
+				animationsSteps = algorithmFunction(...[arrayAlgoritms.array]);
 				renderContentHtml();
 
 				if (
@@ -221,6 +233,7 @@ export async function loadVisualization(viewName, type) {
 			inputContainer.appendChild(addButton);
 			selectedDasContainer.appendChild(inputContainer);
 		} else {
+			selectedDasContainer.appendChild(skipFirstPrevButton)
 			selectedDasContainer.appendChild(skipPrevButton);
 			selectedDasContainer.appendChild(stopAndStartButton);
 			selectedDasContainer.appendChild(skipNextButton);
