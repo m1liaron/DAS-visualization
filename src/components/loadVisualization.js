@@ -133,6 +133,27 @@ export async function loadVisualization(viewName, type) {
 				? module.render(animationsSteps[animationStepIndex])
 				: module.default.render(animationsSteps[animationStepIndex]);
 			updateAnimationStatus();
+			scrollToHighlighted();
+		}
+
+		function scrollToHighlighted() {
+			const container = document.querySelector(".node-container");
+    		const highlightedNode = document.querySelector(".pillar.current");
+
+			if (!container || !highlightedNode) return;
+
+			const viewportLeft = window.scrollX;
+			const viewPortRight = viewportLeft + window.innerWidth;
+
+			const highlightedLeft = highlightedNode.getBoundingClientRect().left + window.scrollX;
+			const highlightedRight = highlightedNode.getBoundingClientRect().right + window.scrollX;
+
+			if(highlightedLeft < viewportLeft || highlightedRight > viewPortRight) {
+					container.scrollTo({
+						left: highlightedLeft - (window.innerWidth / 2) + (highlightedNode.offsetWidth / 2),
+						behavior: "smooth"
+					})
+			}
 		}
 
 		skipFirstPrevButton.addEventListener("click", () => {
@@ -154,7 +175,7 @@ export async function loadVisualization(viewName, type) {
 				e.target.textContent = "pause";
 				const algorithmFunction = module[viewName];
 				animationsSteps = algorithmFunction(...[arrayAlgoritms.array]);
-				renderContentHtml();
+				const pillars = document.querySelectorAll(".pillar");
 
 				if (
 					isAnimationGoes &&

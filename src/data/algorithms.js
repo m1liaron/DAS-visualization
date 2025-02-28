@@ -24,6 +24,10 @@ const algorithms = [
 				name: "quickSort",
 				module: `${algorithmsPath}quickSort`,
 			},
+			{
+				name: "countingSort",
+				module: `${algorithmsPath}countingSort`,
+			},
 		],
 	},
 ];

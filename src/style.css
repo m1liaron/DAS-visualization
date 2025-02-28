@@ -146,10 +146,11 @@ button:focus-visible {
 .node-container {
 	display: flex;
 	gap: 1em;
-	overflow: auto;
-	width: 80%;
+	overflow-x: auto;
+	max-width: 100%;
 	align-items: baseline;
-	justify-content: center;
+	justify-content: flex-start;
+	white-space: nowrap;
 }
 
 .selected-node {
@@ -188,10 +189,12 @@ button:focus-visible {
 
 .pillar {
 	min-width: 40px;
+	min-width: 40px;
 	width: auto;
 	min-height: 10px;
 	max-height: 50vh;
 	background-color: #8b8b8b;
+	flex-shrink: 0;
 }
 
 .pillar {
