@@ -41,7 +41,7 @@ export function navigationRender(algorithms, dataStructures) {
  */
 function createList(items, childKey, nestedClass = "", type = "") {
 	const ul = document.createElement("ul");
-    for(const item of items) {
+	for (const item of items) {
 		const liContainer = document.createElement("li");
 		if (nestedClass) liContainer.classList.add(nestedClass);
 		liContainer.setAttribute("data-view", item.name);
@@ -84,6 +84,6 @@ function createList(items, childKey, nestedClass = "", type = "") {
 		liContainer.appendChild(itemContainer);
 
 		ul.appendChild(liContainer);
-	};
+	}
 	return ul;
 }

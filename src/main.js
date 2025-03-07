@@ -1,8 +1,8 @@
 import "./style.css";
-import javascriptLogo from "./javascript.svg";
 import { loadVisualization } from "./components/loadVisualization.js";
 import { navigationRender } from "./components/navigationRender.js";
 import { algorithms, dataStructures } from "./data/data.js";
+import javascriptLogo from "./javascript.svg";
 
 document.querySelector("#app").innerHTML = `
       <header>

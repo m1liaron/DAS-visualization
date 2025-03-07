@@ -1,2 +1,2 @@
-export { bubbleSort } from './bubbleSort.js';
-export { selectionSort } from './selectionSort.js';
+export { bubbleSort } from "./bubbleSort.js";
+export { selectionSort } from "./selectionSort.js";

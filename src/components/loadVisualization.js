@@ -74,7 +74,7 @@ export async function loadVisualization(viewName, type) {
 
 		let isAnimationGoes = false;
 		let animationInterval = null;
-		clearInterval(animationInterval)
+		clearInterval(animationInterval);
 		animationsSteps = [];
 		animationStepIndex = 0;
 
@@ -116,7 +116,7 @@ export async function loadVisualization(viewName, type) {
 		speedInputRange.type = "range";
 		speedInputRange.min = "100";
 		speedInputRange.max = "5000";
-		speedInputRange.value = "1000"
+		speedInputRange.value = "1000";
 		const speedText = document.createElement("p");
 		speedText.textContent = `${speedInputRange.value / 1000}s`;
 
@@ -138,21 +138,26 @@ export async function loadVisualization(viewName, type) {
 
 		function scrollToHighlighted() {
 			const container = document.querySelector(".node-container");
-    		const highlightedNode = document.querySelector(".pillar.current");
+			const highlightedNode = document.querySelector(".pillar.current");
 
 			if (!container || !highlightedNode) return;
 
 			const viewportLeft = window.scrollX;
 			const viewPortRight = viewportLeft + window.innerWidth;
 
-			const highlightedLeft = highlightedNode.getBoundingClientRect().left + window.scrollX;
-			const highlightedRight = highlightedNode.getBoundingClientRect().right + window.scrollX;
+			const highlightedLeft =
+				highlightedNode.getBoundingClientRect().left + window.scrollX;
+			const highlightedRight =
+				highlightedNode.getBoundingClientRect().right + window.scrollX;
 
-			if(highlightedLeft < viewportLeft || highlightedRight > viewPortRight) {
-					container.scrollTo({
-						left: highlightedLeft - (window.innerWidth / 2) + (highlightedNode.offsetWidth / 2),
-						behavior: "smooth"
-					})
+			if (highlightedLeft < viewportLeft || highlightedRight > viewPortRight) {
+				container.scrollTo({
+					left:
+						highlightedLeft -
+						window.innerWidth / 2 +
+						highlightedNode.offsetWidth / 2,
+					behavior: "smooth",
+				});
 			}
 		}
 
@@ -254,7 +259,7 @@ export async function loadVisualization(viewName, type) {
 			inputContainer.appendChild(addButton);
 			selectedDasContainer.appendChild(inputContainer);
 		} else {
-			selectedDasContainer.appendChild(skipFirstPrevButton)
+			selectedDasContainer.appendChild(skipFirstPrevButton);
 			selectedDasContainer.appendChild(skipPrevButton);
 			selectedDasContainer.appendChild(stopAndStartButton);
 			selectedDasContainer.appendChild(skipNextButton);

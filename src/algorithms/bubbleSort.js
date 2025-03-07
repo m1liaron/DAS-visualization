@@ -1,10 +1,10 @@
 export function bubbleSort(arr) {
-	if(arr.length < 1) return arr;
+	if (arr.length < 1) return arr;
 	const steps = [];
 	const n = arr.length;
 	const array = [...arr];
 
-	steps.push({ array: [...array], currentIndex: 0, swapIndices: []})
+	steps.push({ array: [...array], currentIndex: 0, swapIndices: [] });
 
 	for (let i = 0; i < n - 1; i++) {
 		let swapped = false;
@@ -25,4 +25,4 @@ export function bubbleSort(arr) {
 	return steps;
 }
 
-export { renderSort as render } from '../utills/algorithms/algorithms.js';
+export { renderSort as render } from "../utills/algorithms/algorithms.js";
