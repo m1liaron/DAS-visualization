@@ -30,6 +30,15 @@ const algorithms = [
 			},
 		],
 	},
+	{
+		name: "search",
+		children: [
+			{
+				name: "binarySearch",
+				module: `${algorithmsPath}/search/binarySearch`,
+			}
+		]
+	}
 ];
 
 export { algorithms };
