@@ -1,4 +1,3 @@
-import { bubbleSort } from "../algorithms/bubbleSort.js";
 import { algorithms, dataStructures } from "../data/data.js";
 import { LinkedList } from "../dataStructures/linkedList.js";
 
@@ -178,9 +177,9 @@ export async function loadVisualization(viewName, type) {
 			isAnimationGoes = !isAnimationGoes;
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
+				console.log(module)
 				const algorithmFunction = module[viewName];
 				animationsSteps = algorithmFunction(...[arrayAlgoritms.array]);
-				const pillars = document.querySelectorAll(".pillar");
 
 				if (
 					isAnimationGoes &&

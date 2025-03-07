@@ -25,4 +25,4 @@ export function bubbleSort(arr) {
 	return steps;
 }
 
-export { renderSort as render } from "../utills/algorithms/algorithms.js";
+export { renderSort as render } from "../../utills/algorithms/algorithms.js";

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bubbleSort } from "../algorithms/algorithms.js";
+import { bubbleSort } from "../algorithms/sort/bubbleSort.js";
 
 describe("bubbleSort", () => {
 	it("should correctly sort an array", () => {

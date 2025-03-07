@@ -17,4 +17,4 @@ export function shellSort(arr) {
 	return steps;
 }
 
-export { renderSort as render } from "../utills/algorithms/algorithms.js";
+export { renderSort as render } from "../../utills/algorithms/algorithms.js";

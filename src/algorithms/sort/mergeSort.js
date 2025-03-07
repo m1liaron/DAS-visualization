@@ -74,4 +74,4 @@ function mergeSortHelper(array) {
 	return merge(leftArray, rightArray);
 }
 
-export { renderSort as render } from "../utills/algorithms/algorithms.js";
+export { renderSort as render } from "../../utills/algorithms/algorithms.js";

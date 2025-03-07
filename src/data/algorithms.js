@@ -6,27 +6,27 @@ const algorithms = [
 		children: [
 			{
 				name: "bubbleSort",
-				module: `${algorithmsPath}bubbleSort`,
+				module: `${algorithmsPath}/sort/bubbleSort`,
 			},
 			{
 				name: "selectionSort",
-				module: `${algorithmsPath}selectionSort`,
+				module: `${algorithmsPath}/sort/selectionSort`,
 			},
 			{
 				name: "insertionSort",
-				module: `${algorithmsPath}insertionSort`,
+				module: `${algorithmsPath}/sort/insertionSort`,
 			},
 			{
 				name: "mergeSort",
-				module: `${algorithmsPath}mergeSort`,
+				module: `${algorithmsPath}/sort/mergeSort`,
 			},
 			{
 				name: "quickSort",
-				module: `${algorithmsPath}quickSort`,
+				module: `${algorithmsPath}/sort/quickSort`,
 			},
 			{
 				name: "countingSort",
-				module: `${algorithmsPath}countingSort`,
+				module: `${algorithmsPath}/sort/countingSort`,
 			},
 		],
 	},
