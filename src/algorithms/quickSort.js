@@ -19,13 +19,20 @@ function partition(arr, low, high) {
     return i+1;
 }
 
-export function quickSort(arr, low = 0, high = arr.length - 1) {
+function quickSortRec(arr, low, high) {
     if(low < high) {
         const pi = partition(arr, low, high);
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+        quickSortRec(arr, low, pi - 1);
+        quickSortRec(arr, pi + 1, high);
     }
+}
 
+export function quickSort(arr) {
+    const array = [...arr];
+
+    steps.length = 0;
+
+    quickSortRec(array, 0, array.length - 1)
     return steps;
 }
 
