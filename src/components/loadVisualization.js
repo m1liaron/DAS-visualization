@@ -178,7 +178,7 @@ export async function loadVisualization(viewName, type) {
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
 				const algorithmFunction = module[viewName];
-				animationsSteps = algorithmFunction(...[arrayAlgoritms.array], 2);
+				animationsSteps = algorithmFunction(...[arrayAlgoritms.array], 55);
 
 				if (
 					isAnimationGoes &&
@@ -256,7 +256,8 @@ export async function loadVisualization(viewName, type) {
 			inputContainer.appendChild(input);
 			inputContainer.appendChild(addButton);
 			selectedDasContainer.appendChild(inputContainer);
-		} else {
+		}
+		else {
 			selectedDasContainer.appendChild(skipFirstPrevButton);
 			selectedDasContainer.appendChild(skipPrevButton);
 			selectedDasContainer.appendChild(stopAndStartButton);

@@ -36,6 +36,10 @@ const algorithms = [
 			{
 				name: "binarySearch",
 				module: `${algorithmsPath}/search/binarySearch`,
+			},
+			{
+				name: "linearSearch",
+				module: `${algorithmsPath}/search/linearSearch`,
 			}
 		]
 	}

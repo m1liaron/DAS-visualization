@@ -2,7 +2,9 @@
 
 function render({ array, currentIndex, swapIndices }) {
     const maxNum = Math.max.apply(null, array);
-    let html = `<div class="node-container">`;
+    let html = `
+        <div class="node-container">
+    `;
     for (let i = 0; i < array.length; i++) {
         let highlightClass = "";
         if (swapIndices.includes(i) && i !== currentIndex) {
