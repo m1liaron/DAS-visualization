@@ -178,7 +178,7 @@ export async function loadVisualization(viewName, type) {
 			if (isAnimationGoes) {
 				e.target.textContent = "pause";
 				const algorithmFunction = module[viewName];
-				animationsSteps = algorithmFunction(...[arrayAlgoritms.array], 2);
+				animationsSteps = algorithmFunction(...[arrayAlgoritms.array], 88);
 
 				if (
 					isAnimationGoes &&
