@@ -28,6 +28,10 @@ const algorithms = [
 				name: "countingSort",
 				module: `${algorithmsPath}/sort/countingSort`,
 			},
+			{
+				name: "bucketSort",
+				module: `${algorithmsPath}/sort/bucketSort`,
+			},
 		],
 	},
 	{
